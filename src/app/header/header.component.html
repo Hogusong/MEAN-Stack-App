@@ -1,0 +1,19 @@
+<mat-toolbar color="primary">
+  <span><a (click)="showPosts()">My Messages</a></span>
+  <span class="space"></span>
+  <ul>
+    <li>
+      <a mat-button *ngIf="authStatus" (click)="addNew()">New Post
+      </a>
+    </li>
+    <li>
+      <button mat-button *ngIf="authStatus" (click)="authStatus=false">Logout</button>
+    </li>
+    <li>
+      <a mat-button *ngIf="!authStatus" (click)="login()">Login</a>
+    </li>
+    <li>
+      <a mat-button *ngIf="!authStatus" (click)="signup()">Signup</a>
+    </li>
+  </ul>
+</mat-toolbar>

@@ -1,0 +1,26 @@
+ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  float: right;
+  text-decoration: none;
+  color: white;
+}
+
+.space {
+  flex: 1 1 auto;
+}
+
+a .text-orange {
+  color: orange;
+  outline: none
+}
+
+a .text-white {
+  color: white;
+  outline: none
+}
