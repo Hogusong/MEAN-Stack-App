@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { AuthService } from 'src/app/providers/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,15 +11,21 @@ import { NgForm } from '@angular/forms';
 export class LoginComponent implements OnInit {
 
   pattern = "[a-zA-Z0-9]*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?";
+  message = '';
 
-  constructor() { }
+  constructor(private authService: AuthService,
+              private router: Router) { }
 
   ngOnInit() {
   }
 
   onLogin(form: NgForm) {
+    this.message = '';
     if (form.invalid) return;
-    console.log('Logged in successfully!!!');
-    console.log(form.value);
+    const result = this.authService.login(form.value.email, form.value.password);
+    if (result.loggedIn) {
+      console.log('Logged in successfully!!!');
+    } 
+    this.message = result.message;
   }
 }

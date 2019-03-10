@@ -7,7 +7,7 @@ import { USER } from '../models'
 })
 export class AuthService {
 
-  users: USER[] = [];
+  private users: USER[] = [];
 
   constructor() { }
 
@@ -19,5 +19,15 @@ export class AuthService {
       this.users.push(newUser);
       return true;
     }
+  }
+
+  login(email, password) {
+    const user = this.users.find(user => user.email === email);
+    if (!user) {
+      return { loggedIn: false, message: 'Failed to find the email. Confirm the email . . .' }
+    } else if (user.password != password) {
+      return { loggedIn: false, message: 'Password not matched. Try another . . .' }
+    } 
+    return { loggedIn: true, message: 'Logged in successfully. Enjoy my app !!!' };
   }
 }
