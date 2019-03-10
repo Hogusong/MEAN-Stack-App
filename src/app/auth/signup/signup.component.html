@@ -15,8 +15,16 @@
                       placeholder="Password here">
       <mat-error *ngIf="password.invalid">Password is not valid</mat-error>
     </mat-form-field>
+    <mat-form-field>
+      <input matInput type="password" name="confirmPass" 
+                      ngModel required minlength="4"
+                      #confirmPass="ngModel"
+                      placeholder="Password again">
+      <mat-error *ngIf="confirmPass.invalid">Password is not valid.</mat-error>
+    </mat-form-field>
     <div>
       <button mat-raised-button color="accent" type="submit" [disabled]="signupForm.invalid">Signup</button>
+      <p id="message" *ngIf="message">{{ message }}</p>
     </div>
   </form>
 </mat-card>
