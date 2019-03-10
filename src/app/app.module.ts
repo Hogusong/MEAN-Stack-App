@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { AppComponent } from './app.component';
 import { NgMaterialModule } from './ng-material.module';
 import { HeaderComponent } from './header/header.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { HeaderComponent } from './header/header.component';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    NgMaterialModule
+    NgMaterialModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
