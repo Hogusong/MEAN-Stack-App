@@ -10,10 +10,16 @@
       <button mat-button *ngIf="authStatus" (click)="authStatus=false">Logout</button>
     </li>
     <li>
-      <a mat-button *ngIf="!authStatus" (click)="login()">Login</a>
+      <a mat-button *ngIf="!authStatus"
+          routerLinkActive="mat-accent"
+          routerLink="/login">Login
+      </a>
     </li>
     <li>
-      <a mat-button *ngIf="!authStatus" (click)="signup()">Signup</a>
+      <a mat-button *ngIf="!authStatus"
+          routerLinkActive="mat-accent"
+          routerLink="/signup">Signup
+      </a>
     </li>
   </ul>
 </mat-toolbar>
