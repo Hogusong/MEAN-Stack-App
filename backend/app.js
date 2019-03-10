@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+const userRoutes = require('./routes/user');
 const app = express();
 
 const name = process.env.MONGO_USERNAME;
@@ -31,5 +32,7 @@ app.use((req, res, next) => {
     'GET, POST, PUT, PATCH, DELETE, OPTIONS');
   next();
 });
+
+app.use(userRoutes);
 
 module.exports = app;
