@@ -13,10 +13,7 @@ exports.createUser = (req, res, next) => {
       email: req.body.email,  password: hash
     });
     user.save().then(result => {
-      res.status(201).json({
-        message: 'Signup successfully.',
-        user: result
-      });
+      res.status(201).json({ user: result, message: 'Signup successfully.' });
     })
     .catch(err => {
       res.status(500).json({ message: 'Email is not valid. Try another.' });

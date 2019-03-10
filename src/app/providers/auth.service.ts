@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { USER } from '../models'
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -9,16 +10,10 @@ export class AuthService {
 
   private users: USER[] = [];
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   signup(newUser: USER) {
-    if (this.users.find(user => user.email === newUser.email)) {
-      return false;
-    } else {
-      newUser.id = '' + (this.users.length + 1);
-      this.users.push(newUser);
-      return true;
-    }
+    return this.http.post<any>('http://localhost:3000/api/signup', newUser)
   }
 
   login(email, password) {
