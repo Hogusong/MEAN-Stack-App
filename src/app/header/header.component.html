@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-  <span><a (click)="showPosts()">My Messages</a></span>
+  <span><a routerLink="" routerLinkActive="mat-accent">My Messages</a></span>
   <span class="space"></span>
   <ul>
     <li>
@@ -7,7 +7,7 @@
       </a>
     </li>
     <li>
-      <button mat-button *ngIf="authStatus" (click)="authStatus=false">Logout</button>
+      <button mat-button *ngIf="authStatus" (click)="logout()">Logout</button>
     </li>
     <li>
       <a mat-button *ngIf="!authStatus"

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../providers/auth.service';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -7,28 +10,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  authStatus = false;
+  authStatus: boolean;
+  authSubscription = new Subscription();
 
-  constructor() { }
+  constructor(private authService: AuthService,
+              private router: Router) { }
 
   ngOnInit() {
-  }
-
-  login() {
-    console.log('Logged in');
-    this.authStatus = true;
-  }
-
-  signup() {
-    console.log('Signup');
-    this.authStatus = true;
+    this.authStatus = this.authService.getAuthStatus();
+    this.authSubscription = this.authService.getAuthSubject().subscribe(res => {
+      this.authStatus = res;
+      console.log(res)
+      if (res) {
+        this.router.navigate(['/']);
+      }
+      this.router.navigate(['/login'])
+    })
   }
 
   addNew() {
     console.log('Add New');
   }
 
-  showPosts() {
-    console.log('Show all posts')
+  logout() {
+    this.authStatus = false;
+    this.authService.logout();
   }
 }

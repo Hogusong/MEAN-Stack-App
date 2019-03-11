@@ -12,9 +12,19 @@ export class AuthService {
   private token: string;
   private users: USER[] = [];
   private loginSubject = new Subject<string>();
+  private authSubject = new Subject<boolean>();
+  authStatus = false;
   tokenTimer: any;
 
   constructor(private http: HttpClient) { }
+
+  getAuthStatus() {
+    return this.authStatus;
+  }
+
+  getAuthSubject() {
+    return this.authSubject.asObservable();
+  }
 
   getLoginSubject() {
     return this.loginSubject.asObservable();
@@ -34,7 +44,8 @@ export class AuthService {
         this.token = res.token;
         const expiresIn = res.expiresIn * 1000
         if (this.token) {
-          this.loginSubject.next('LOGGEDIN');
+          this.loginSubject.next('LOGGED IN');
+          this.authSubject.next(this.authStatus = true);
           const expiration = (new Date()).getTime() + expiresIn;
           this.saveAuthData(this.token, new Date(expiration), res.userId);
           this.setAuthTimer(expiresIn);
@@ -64,5 +75,7 @@ export class AuthService {
     this.token = null;
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
+    this.authSubject.next(this.authStatus = false);
+    this.loginSubject.next('');
   }
 }
