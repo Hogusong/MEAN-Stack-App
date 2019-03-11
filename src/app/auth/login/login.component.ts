@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginSubscription = this.authService.getLoginSubject()
       .subscribe(res => {
         if (res === 'LOGGED IN') {
-          this.router.navigate(['/'])
+          this.router.navigate(['/']);
         }
         this.message = res;
       })

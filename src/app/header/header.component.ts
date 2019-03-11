@@ -20,11 +20,6 @@ export class HeaderComponent implements OnInit {
     this.authStatus = this.authService.getAuthStatus();
     this.authSubscription = this.authService.getAuthSubject().subscribe(res => {
       this.authStatus = res;
-      console.log(res)
-      if (res) {
-        this.router.navigate(['/']);
-      }
-      this.router.navigate(['/login'])
     })
   }
 

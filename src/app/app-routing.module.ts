@@ -7,7 +7,8 @@ import { PostListComponent } from "./posts/post-list/post-list.component";
 const appRoutes: Routes = [
   { path: '', component: PostListComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+  { path: '**', redirectTo: '/login' }
 ]
 
 @NgModule({

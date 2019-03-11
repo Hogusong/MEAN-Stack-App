@@ -63,12 +63,14 @@ export class AuthService {
     localStorage.setItem('token', token);
     localStorage.setItem('expiration', expirationDate.toISOString());
     localStorage.setItem('userId', userId);
+    localStorage.setItem('loginStatus', 'true')
   }
 
   clearAuthData() {
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
     localStorage.removeItem('userId');
+    localStorage.removeItem('loginStatus');
   }
 
   logout() {
@@ -76,6 +78,5 @@ export class AuthService {
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
     this.authSubject.next(this.authStatus = false);
-    this.loginSubject.next('');
   }
 }
