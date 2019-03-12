@@ -3,6 +3,8 @@ const POST = require('../models/post');
 exports.getPosts = (req, res, next) => {
   POST.find().then(doc => {
     res.status(200).json({ posts: doc })
+  }, error => {
+    res.status(500).json({ message: 'Failed posts downloading!'})
   });
 }
 
