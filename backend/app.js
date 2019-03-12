@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const userRoutes = require('./routes/user');
+const postRoutes = require('./routes/post');
 const app = express();
 
 const name = process.env.MONGO_USERNAME;
@@ -34,5 +35,6 @@ app.use((req, res, next) => {
 });
 
 app.use(userRoutes);
+app.use(postRoutes);
 
 module.exports = app;
