@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { POST } from 'src/app/models';
 import { PostService } from 'src/app/providers/post.service';
 import { PageEvent } from '@angular/material';
@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './post-list.component.html',
   styleUrls: ['./post-list.component.css']
 })
-export class PostListComponent implements OnInit {
+export class PostListComponent implements OnInit, OnDestroy {
 
   posts: POST[] = [];
   isLoading = false;
@@ -42,5 +42,9 @@ export class PostListComponent implements OnInit {
     this.currPage = pageData.pageIndex + 1;
     this.postPerPage = pageData.pageSize;
     this.loadPosts();
+  }
+
+  ngOnDestroy() {
+    this.postsSubscription.unsubscribe();
   }
 }
