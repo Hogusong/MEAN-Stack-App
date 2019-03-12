@@ -56,5 +56,6 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.postsSubscription.unsubscribe();
+    this.authSubscription.unsubscribe();
   }
 }

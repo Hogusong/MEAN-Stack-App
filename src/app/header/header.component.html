@@ -3,7 +3,7 @@
   <span class="space"></span>
   <ul>
     <li>
-      <a mat-button *ngIf="authStatus" (click)="addNew()">New Post
+      <a mat-button *ngIf="authStatus" routerLink="/create" routerLinkActive="mat-accent">New Post
       </a>
     </li>
     <li>
