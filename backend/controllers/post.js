@@ -1,10 +1,28 @@
 const POST = require('../models/post');
 
 exports.getPosts = (req, res, next) => {
-  POST.find().then(doc => {
-    res.status(200).json({ posts: doc })
-  }, error => {
-    res.status(500).json({ message: 'Failed posts downloading!'})
+  const pageSize = +req.query.pageSize;
+  const currPage = +req.query.currPage;
+  let fetchedPosts;
+  const postQuery = POST.find();
+  if (currPage > 0) {
+    postQuery.skip(pageSize * (currPage - 1))
+             .limit(pageSize);
+  }
+  postQuery.then(documents => {
+    fetchedPosts = documents.map(doc => {
+      return { id: doc._id,  title: doc.title,  content: doc.content, imagePath: doc.imagePath, creator: doc.creator }
+    })
+    return POST.countDocuments();
+  }).then(count =>{
+    res.status(200).json({
+      message: 'Posts fetch successfully',
+      posts: fetchedPosts,
+      count: count
+    });
+  })
+  .catch(error => {
+    res.status(500).json({ message: 'Fetching posts failed!' });
   });
 }
 
