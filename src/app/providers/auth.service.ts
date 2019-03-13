@@ -13,7 +13,7 @@ export class AuthService {
   private users: USER[] = [];
   private loginSubject = new Subject<string>();
   private authSubject = new Subject<boolean>();
-  authStatus = false;
+  authStatus = eval(localStorage.getItem('loginStatus'));
   tokenTimer: any;
 
   constructor(private http: HttpClient) { }

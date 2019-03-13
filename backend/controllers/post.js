@@ -31,7 +31,7 @@ exports.addPost = (req, res, next) => {
     title: req.body.title,
     content: req.body.content,
     imagePath: 'unknown',
-    creator: req.userData.userId
+    creator: req.body.creator
   });
   post.save().then(result => {
     res.status(201).json({

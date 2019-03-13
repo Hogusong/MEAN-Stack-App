@@ -32,4 +32,14 @@ export class PostService {
         this.updatedPostsSubject.next({ posts: [...this.posts], count: this.count});
       });
   }
+
+  getPostById(id: string) {
+    return this.http.get<any>('http://localhost:3000/api/posts/' + id)
+  }
+
+  addPost(newPost: POST) {
+    this.http.post('http://localhost:3000/api/posts/add', newPost)
+      .subscribe(data => console.log(data)
+      ,error => console.log(error.error.message));
+  }
 }
