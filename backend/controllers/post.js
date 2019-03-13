@@ -43,3 +43,16 @@ exports.addPost = (req, res, next) => {
     res.status(500).json({ message: 'Creating a post failed!'});
   })
 }
+
+exports.deletePost =  (req, res, next) => {
+  POST.deleteOne({ _id: req.params.id }).then(result => {
+    if (result.n > 0) {
+      res.status(200).json({ message: 'Deleted successfully!' });
+    } else {
+      res.status(200).json({ message: 'Not authorized!' });
+    }
+  })
+  .catch(error => {
+    res.status(500).json({ message: 'Couldn\'t delete post!' });
+  });
+}

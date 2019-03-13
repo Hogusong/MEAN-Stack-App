@@ -42,4 +42,8 @@ export class PostService {
       .subscribe(data => console.log(data)
       ,error => console.log(error.error.message));
   }
+
+  deletePost(id: string) {
+    return this.http.delete('http://localhost:3000/api/posts/' + id);
+  }
 }
