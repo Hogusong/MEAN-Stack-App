@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Subject } from 'rxjs';
 
 import { POST } from '../models';
-import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -37,9 +37,17 @@ export class PostService {
     return this.http.get<any>('http://localhost:3000/api/posts/' + id)
   }
 
-  addPost(newPost: POST) {
-    this.http.post('http://localhost:3000/api/posts/add', newPost)
-      .subscribe(data => console.log(data)
+  addPost(post: POST, image: File) {
+    const postData = new FormData();
+    postData.append('title', post.title);
+    postData.append('content', post.content);
+    postData.append('image', image, post.title);
+    this.http.post('http://localhost:3000/api/posts/add', postData)
+      .subscribe(data => {
+        // post = data.post;
+        this.posts.push(post);
+        this.updatedPostsSubject.next({ posts: [...this.posts], count: ++this.count });
+      }
       ,error => console.log(error.error.message));
   }
 

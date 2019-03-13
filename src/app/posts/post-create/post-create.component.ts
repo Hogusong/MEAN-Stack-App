@@ -62,12 +62,17 @@ export class PostCreateComponent implements OnInit {
     const newTitle = this.form.value.title.trim();
     const newContent = this.form.value.content.trim();
     if (newTitle.length > 2 && newContent.length > 0) {
-      const post: POST = { title: newTitle, content: newContent, imagePath: 'unknown', creator: this.userId };
+      const post: POST = {
+        title: newTitle,
+        content: newContent,
+        imagePath: this.form.value.image,
+        creator: this.userId
+      };
       if (!this.postId) {
-        this.postService.addPost(post);
+        this.postService.addPost(post, this.form.value.imange);
       } else {
         post.id = this.postId;
-        // this.postService.updatePost(post);
+        // this.postService.updatePost(post, this.form.value.imange);
       }
     }
     this.router.navigate(['/']);
