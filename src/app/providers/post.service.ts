@@ -55,4 +55,26 @@ export class PostService {
   deletePost(id: string) {
     return this.http.delete('http://localhost:3000/api/posts/' + id);
   }
+
+  updatePost(post: POST, image: File | string) {
+    let postData: POST | FormData;
+    if (typeof image === 'object') {
+      postData = new FormData();
+      postData.append('id', post.id);
+      postData.append('title', post.title);
+      postData.append('content', post.content);
+      postData.append('image', image, post.title);
+      console.log('here', postData)
+    } else {
+      postData = post;
+    }
+    this.http.put('http://localhost:3000/api/posts/update', postData)
+      .subscribe(res => {
+        const index = this.posts.findIndex(p => p.id === post.id );
+        if (index > -1) {
+          this.posts[index] = post;
+          this.updatedPostsSubject.next({ posts: [...this.posts], count: this.count });
+        }    
+      });
+  }
 }

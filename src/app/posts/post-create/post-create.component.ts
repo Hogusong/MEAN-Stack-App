@@ -72,7 +72,7 @@ export class PostCreateComponent implements OnInit {
         this.postService.addPost(post, this.form.value.image);
       } else {
         post.id = this.postId;
-        // this.postService.updatePost(post, this.form.value.imange);
+        this.postService.updatePost(post, this.form.value.image);
       }
     }
     this.router.navigate(['/']);

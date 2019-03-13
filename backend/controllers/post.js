@@ -73,3 +73,29 @@ exports.deletePost =  (req, res, next) => {
       res.status(500).json({ message: 'Couldn\'t delete post!' });
     });
 }
+
+exports.updatePost = (req, res, next) => {
+  let imagePath = req.body.imagePath;
+  if (req.file) {
+    // const url = req.protocol + '://' + req.get('host');
+    const url = 'backend'
+    imagePath = url + '/images/' + req.file.filename
+  }
+  const post = new POST({
+    _id: req.body.id,
+    title: req.body.title,
+    content: req.body.content,
+    imagePath: imagePath,
+    creator: req.userData.userId
+  });
+  POST.updateOne({ _id: post._id, creator: req.userData.userId }, post).then(result => {
+    if (result.n > 0) {
+      res.status(200).json({ message: 'Updated successfully!' });
+    } else {
+      res.status(401).json({ message: 'Not authorized!'})
+    }
+  })
+  .catch(error => {
+    res.status(500).json({ message: 'Couldn\'t update post!' });
+  });
+}
