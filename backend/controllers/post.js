@@ -27,15 +27,20 @@ exports.getPosts = (req, res, next) => {
 }
 
 exports.addPost = (req, res, next) => {
+  // const url = req.protocol + '://' + req.get('host');  // need when deploy
+  const url = 'backend'
   const post = new POST({
     title: req.body.title,
     content: req.body.content,
-    imagePath: 'unknown',
-    creator: req.body.creator
+    imagePath: url + '/images/' + req.file.filename,
+    creator: req.userData.userId
   });
-  post.save().then(result => {
+  post.save().then(data => {
     res.status(201).json({
-      post: result,
+      post: {
+        ...data,
+        id: data._id
+      },
       message: 'Post added successfully'
     });
   })
@@ -45,14 +50,15 @@ exports.addPost = (req, res, next) => {
 }
 
 exports.deletePost =  (req, res, next) => {
-  POST.deleteOne({ _id: req.params.id }).then(result => {
-    if (result.n > 0) {
-      res.status(200).json({ message: 'Deleted successfully!' });
-    } else {
-      res.status(200).json({ message: 'Not authorized!' });
-    }
-  })
-  .catch(error => {
-    res.status(500).json({ message: 'Couldn\'t delete post!' });
-  });
+  POST.deleteOne({ _id: req.params.id, creator: req.userData.userId })
+    .then(result => {
+      if (result.n > 0) {
+        res.status(200).json({ message: 'Deleted successfully!' });
+      } else {
+        res.status(200).json({ message: 'Not authorized!' });
+      }
+    })
+    .catch(error => {
+      res.status(500).json({ message: 'Couldn\'t delete post!' });
+    });
 }

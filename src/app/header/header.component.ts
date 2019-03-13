@@ -23,10 +23,6 @@ export class HeaderComponent implements OnInit, OnDestroy{
     })
   }
 
-  addNew() {
-    console.log('Add New');
-  }
-
   logout() {
     this.authStatus = false;
     this.authService.logout();

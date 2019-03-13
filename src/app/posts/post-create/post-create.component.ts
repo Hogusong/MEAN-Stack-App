@@ -4,7 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { POST } from 'src/app/models';
 import { PostService } from 'src/app/providers/post.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { mimeType } from './mine-type.validator';
+import { mimeType } from './mime-type.validator';
 
 @Component({
   selector: 'app-post-create',
@@ -66,10 +66,10 @@ export class PostCreateComponent implements OnInit {
         title: newTitle,
         content: newContent,
         imagePath: this.form.value.image,
-        creator: this.userId
+        creator: this.post.creator
       };
       if (!this.postId) {
-        this.postService.addPost(post, this.form.value.imange);
+        this.postService.addPost(post, this.form.value.image);
       } else {
         post.id = this.postId;
         // this.postService.updatePost(post, this.form.value.imange);

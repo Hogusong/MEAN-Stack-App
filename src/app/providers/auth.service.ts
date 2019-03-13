@@ -10,10 +10,9 @@ import { Subject } from 'rxjs';
 export class AuthService {
 
   private token: string;
-  private users: USER[] = [];
   private loginSubject = new Subject<string>();
   private authSubject = new Subject<boolean>();
-  authStatus = eval(localStorage.getItem('loginStatus'));
+  authStatus = false;
   tokenTimer: any;
 
   constructor(private http: HttpClient) { }
@@ -59,18 +58,35 @@ export class AuthService {
     this.tokenTimer = setTimeout(() => { this.logout() }, duration)
   }
 
+  autoAuthUser() {
+    const authInformation = this.getAuthData();
+    const expiresIn = authInformation.expirationDate.getTime() - (new Date()).getTime();
+    if (expiresIn > 0) {
+      this.token = authInformation.token;
+      this.authSubject.next(this.authStatus = true);
+      this.setAuthTimer(expiresIn);
+    }
+  }
+
+  private getAuthData() {
+    const token = localStorage.getItem('token');
+    const expiration = localStorage.getItem('expiration');
+    if (token && expiration) {
+      return { token: token,  expirationDate: new Date(expiration) }
+    }
+    return { token: '', expirationDate: new Date() } ;
+  }
+
   saveAuthData(token: string, expirationDate: Date, userId: string) {
     localStorage.setItem('token', token);
     localStorage.setItem('expiration', expirationDate.toISOString());
     localStorage.setItem('userId', userId);
-    localStorage.setItem('loginStatus', 'true')
   }
 
   clearAuthData() {
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
     localStorage.removeItem('userId');
-    localStorage.removeItem('loginStatus');
   }
 
   logout() {
