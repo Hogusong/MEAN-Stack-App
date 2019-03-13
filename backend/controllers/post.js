@@ -26,6 +26,17 @@ exports.getPosts = (req, res, next) => {
   });
 }
 
+exports.getPost = (req, res, next) => {
+  const postId = req.params.id;
+  POST.findById(postId)
+    .then(data => {
+      res.status(200).json(data);
+    })
+    .catch(error => {
+      res.status(500).json({ message: 'Cannot find any related post.'});
+    })
+}
+
 exports.addPost = (req, res, next) => {
   // const url = req.protocol + '://' + req.get('host');  // need when deploy
   const url = 'backend'
