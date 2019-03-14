@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 
 import { POST } from '../models';
+import { environment } from 'src/environments/environment';
+
+const BACKEND_URL = environment.apiUrl + 'posts/';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +19,7 @@ export class PostService {
   constructor(private http: HttpClient) { }
 
   getPosts() {
-    return this.http.get<{ posts: POST[] }>('http://localhost:3000/api/posts');
+    return this.http.get<{ posts: POST[] }>(BACKEND_URL);
   }
 
   getUpdatedPostsSubject() {
@@ -25,7 +28,7 @@ export class PostService {
 
   getPostsByPage(pageSize: number, currPage: number) {
     const query = '?pageSize=' + pageSize + '&currPage=' + currPage;
-    this.http.get<any>('http://localhost:3000/api/posts' + query)
+    this.http.get<any>(BACKEND_URL + query)
       .subscribe(data => {
         this.posts = data.posts;
         this.count = data.count;
@@ -34,7 +37,7 @@ export class PostService {
   }
 
   getPostById(id: string) {
-    return this.http.get<any>('http://localhost:3000/api/posts/' + id)
+    return this.http.get<any>(BACKEND_URL + id)
   }
 
   addPost(post: POST, image: File) {
@@ -43,7 +46,7 @@ export class PostService {
     postData.append('content', post.content);
     postData.append('image', image, post.title);
     this.http.post<{ post: POST, message: string }>
-      ('http://localhost:3000/api/posts/add', postData)
+      (BACKEND_URL + 'add', postData)
       .subscribe(data => {
         post = data.post;
         this.posts.push(post);
@@ -53,7 +56,7 @@ export class PostService {
   }
 
   deletePost(id: string) {
-    return this.http.delete('http://localhost:3000/api/posts/' + id);
+    return this.http.delete(BACKEND_URL + id);
   }
 
   updatePost(post: POST, image: File | string) {
@@ -64,11 +67,10 @@ export class PostService {
       postData.append('title', post.title);
       postData.append('content', post.content);
       postData.append('image', image, post.title);
-      console.log('here', postData)
     } else {
       postData = post;
     }
-    this.http.put('http://localhost:3000/api/posts/update', postData)
+    this.http.put(BACKEND_URL + 'update', postData)
       .subscribe(res => {
         const index = this.posts.findIndex(p => p.id === post.id );
         if (index > -1) {
