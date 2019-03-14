@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MatInputModule, MatToolbarModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatExpansionModule, MatProgressSpinnerModule, MatPaginatorModule } from '@angular/material';
+import { MatInputModule, MatToolbarModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatExpansionModule, MatProgressSpinnerModule, MatPaginatorModule, MatDialogModule } from '@angular/material';
 
 @NgModule({
   exports: [
@@ -11,7 +11,8 @@ import { MatInputModule, MatToolbarModule, MatButtonModule, MatCardModule, MatFo
     MatInputModule,
     MatExpansionModule,
     MatProgressSpinnerModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatDialogModule
   ],
 })
 

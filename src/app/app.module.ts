@@ -11,13 +11,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { PostListComponent } from './posts/post-list/post-list.component';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
+import { ErrorInterceptor } from './error-interceptor';
+import { ErrorComponent } from './posts/error/error.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     PostListComponent,
-    PostCreateComponent
+    PostCreateComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -29,8 +32,10 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     AppRoutingModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent]
 })
 export class AppModule { }
